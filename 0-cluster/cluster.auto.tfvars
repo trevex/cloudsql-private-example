@@ -1,2 +1,2 @@
-project = "nvoss-sql-private"
-region  = "europe-west4"
+project = "nvoss-cloudsql-paris"
+region  = "europe-west9"

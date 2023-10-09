@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
-    bucket = "nvoss-sql-private-tf-state"
-    prefix = "terraform/cluster-0"
+    bucket = "nvoss-cloudsql-paris-tf-state"
+    prefix = "terraform/0-cluster"
   }
 }
 
@@ -52,8 +52,21 @@ module "network" {
 
 # Create GKE Autopilot cluster
 
+# module "cluster" {
+#   source = "../modules//cluster-ap"
+
+#   name                   = "mycluster"
+#   project                = var.project
+#   region                 = var.region
+#   network_id             = module.network.id
+#   subnetwork_id          = module.network.subnetworks["mynetwork-main-${var.region}"].id
+#   master_ipv4_cidr_block = "172.16.0.0/28"
+
+#   depends_on = [module.network]
+# }
+
 module "cluster" {
-  source = "../modules//cluster"
+  source = "../modules//cluster-s"
 
   name                   = "mycluster"
   project                = var.project
@@ -61,6 +74,14 @@ module "cluster" {
   network_id             = module.network.id
   subnetwork_id          = module.network.subnetworks["mynetwork-main-${var.region}"].id
   master_ipv4_cidr_block = "172.16.0.0/28"
+
+  node_pools = {
+    mydefault = {
+      machine_type   = "n2-standard-8"
+      min_node_count = 1
+      max_node_count = 3
+    }
+  }
 
   depends_on = [module.network]
 }

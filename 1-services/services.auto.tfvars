@@ -1,3 +1,3 @@
-project              = "nvoss-sql-private"
-region               = "europe-west4"
+project              = "nvoss-cloudsql-paris"
+region               = "europe-west9"
 peering_network_name = "mynetwork"

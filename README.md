@@ -10,8 +10,8 @@ jq
 
 Create a project and pick a region and export them for the following code snippets, e.g.:
 ```bash
-export PROJECT="nvoss-sql-private"
-export REGION="europe-west4"
+export PROJECT="nvoss-cloudsql-paris"
+export REGION="europe-west9"
 ```
 
 ## Bucket for terraform state

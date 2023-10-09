@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "nvoss-sql-private-tf-state"
+    bucket = "nvoss-cloudsql-paris-tf-state"
     prefix = "terraform/1-services"
   }
 }
