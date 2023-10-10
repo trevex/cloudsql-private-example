@@ -27,13 +27,7 @@ resource "google_project_iam_member" "cluster_metadata_writer" {
   member  = "serviceAccount:${google_service_account.cluster.email}"
 }
 
-#tfsec:ignore:google-gke-enable-network-policy We keep things simple for this demo
-#tfsec:ignore:google-gke-enable-master-networks We keep things simple for this demo
-#tfsec:ignore:google-gke-use-service-account False positive, we have a ServiceAccount setup
-#tfsec:ignore:google-gke-metadata-endpoints-disabled False positive, ...
-#tfsec:ignore:google-gke-enforce-pod-security-policy No PSPs, but no privileged pods allowed either...
 resource "google_container_cluster" "cluster" {
-
   provider = google-beta
 
   name     = var.name
@@ -70,6 +64,12 @@ resource "google_container_cluster" "cluster" {
     master_global_access_config {
       enabled = true
     }
+  }
+
+  # We prefer CloudDNS over KubeDNS
+  dns_config {
+    cluster_dns   = "CLOUD_DNS"
+    cluster_scope = "CLUSTER_SCOPE" # NOTE: consider VPC_SCOPE if you want to resolve Kubernetes services outside of your cluster
   }
 
   workload_identity_config {
